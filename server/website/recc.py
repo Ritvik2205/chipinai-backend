@@ -106,7 +106,8 @@ def get_recommendations(new_user):
     image_urls = []
     for restaurant_name in restaurant_names:
         image_filename = restaurant_name.replace(" ", "_").lower() + ".png"
-        image_path = os.path.join(current_dir, "images", image_filename)
+
+        image_path = os.path.join(current_dir, "static/images", image_filename)
         if os.path.exists(image_path):
             image_url = url_for('static', filename=os.path.join("images", image_filename), _external=True)
         else:
