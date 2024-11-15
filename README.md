@@ -322,7 +322,47 @@ https://chipinai-backend.onrender.com
 - 200
 ```json
 {
-  "recommendations": "list",
+  "recommendations": [
+    {
+            "Bars": 0,
+            "Burgers": 0,
+            "Chinese": 0,
+            "GoodForKids": 1,
+            "HasTV": 0,
+            "Indian": 0,
+            "Irish": 0,
+            "Italian": 0,
+            "Japanese": 0,
+            "Mexican": 0,
+            "NoiseLevel": 2.0,
+            "OutdoorSeating": 1,
+            "Pizza": 0,
+            "RestaurantsGoodForGroups": 1,
+            "RestaurantsPriceRange2": 1.0,
+            "RestaurantsReservations": 0,
+            "RestaurantsTakeOut": 1,
+            "Sandwiches": 1,
+            "Seafood": 0,
+            "Steakhouses": 0,
+            "Thai": 0,
+            "WiFi": 1,
+            "alcohol": 0,
+            "attire": 0.0,
+            "casual": 1,
+            "classy": 0,
+            "divey": 0,
+            "hipster": 0,
+            "image_url": "http://0.0.0.0:8080/static/images/placeholder_restaurant.png",
+            "intimate": 0,
+            "restaurant_name": "Sunny Side Deli",
+            "review_count": 292,
+            "romantic": 0,
+            "stars": 4.0,
+            "touristy": 0,
+            "trendy": 0,
+            "upscale": 0
+        },
+  ],
   "previous_sessions": [
                     {
             "session_name": "string",

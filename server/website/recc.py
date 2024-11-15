@@ -1,4 +1,4 @@
-from flask import Flask, request, Blueprint, jsonify
+from flask import Flask, request, Blueprint, jsonify, url_for
 import numpy as np
 import pandas as pd
 import torch
@@ -97,9 +97,24 @@ def get_recommendations(new_user):
     scalerTarget = joblib.load('scaler_target.pkl')
     predictions_inverse = scalerTarget.inverse_transform(predictions.reshape(-1, 1).detach().cpu().numpy())
     top_10_indices = predictions_inverse.flatten().argsort()[-10:][::-1]
-    # log the top 10 recommendations
-    print(item_train_df.iloc[top_10_indices])
-    return(item_train_df.iloc[top_10_indices])
+    
+    top_10_df = item_train_df.iloc[top_10_indices].copy()
+
+    restaurant_names = ["Lotus Garden Bistro", "Sunny Side Deli", "The Velvet Taproom", "The Pizza Patio", "Brick Oven & Brews", "Cornerstone Subs", "Tranquil Bites Café", "Solo Spoons Eatery", "Spicy Thai Express", "Fiesta Grill & Cantina"]
+    top_10_df["restaurant_name"] = restaurant_names
+    
+    image_urls = []
+    for restaurant_name in restaurant_names:
+        image_filename = restaurant_name.replace(" ", "_").lower() + ".png"
+        image_path = os.path.join(current_dir, "images", image_filename)
+        if os.path.exists(image_path):
+            image_url = url_for('static', filename=os.path.join("images", image_filename), _external=True)
+        else:
+            image_url = url_for('static', filename=os.path.join("images", "placeholder_restaurant.png"), _external=True)
+        image_urls.append(image_url)
+
+    top_10_df["image_url"] = image_urls    
+    return(top_10_df)
 
 @recc.route('/get-recc', methods=['GET'])
 def get_recc():
