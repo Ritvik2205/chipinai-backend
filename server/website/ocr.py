@@ -57,10 +57,10 @@ LINE_TERMINATOR_KEYWORDS = set(["TOTAL", "Total", "VAT", "AT", "AMOUNT", "Amount
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-unwantedStringsFilePath = os.path.join(current_dir, "dataSets/unwanted_strings.txt")
-shopNamesFilePath = os.path.join(current_dir, "dataSets/shop_names.txt")
+unwantedStringsFilePath = os.path.join(current_dir, "../dataSets/unwanted_strings.txt")
+shopNamesFilePath = os.path.join(current_dir, "../dataSets/shop_names.txt")
 # currencySymbolsFilePath = "dataSets/currency_symbols.txt"
-keywordAdressesFilePath = os.path.join(current_dir, "dataSets/keyword_addresses.txt")
+keywordAdressesFilePath = os.path.join(current_dir, "../dataSets/keyword_addresses.txt")
 
 def getDataFromFiles(filePath, set):
     with open(filePath, 'r') as file:
