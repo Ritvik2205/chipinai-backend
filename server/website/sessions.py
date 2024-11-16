@@ -22,7 +22,10 @@ sessions = Blueprint('sessions', __name__)
 def create_session(current_user_id):
     data = request.get_json()
     restaurant_details = data.get("restaurantDetails")
-    session_name = f"{datetime.datetime.now()} - {data.get('restaurantName')}"
+    current_datetime = datetime.datetime.now()
+    date_part = current_datetime.strftime("%Y-%m-%d")
+    time_part = current_datetime.strftime("%H:%M:%S")
+    session_name = f"{date_part} - {time_part} - {data.get('restaurantName')}"
     receipt = data.get("receipt")
     session_positions = [{} for _ in range(len(receipt))]
     total = 0
