@@ -81,23 +81,15 @@ def calculate_total_for_user(user_id, session):
 
 
 @sessions.route('get_session/<session_id>', methods=['GET'])
-def get_session(session_id):    
+@token_required
+def get_session(current_user_id, session_id):    
     session = sessions_collection.find_one({'_id': ObjectId(session_id)})
-    current_user_id = request.get_json().get('user_id')
+    # current_user_id = request.get_json().get('user_id')
     if session:
         status = session.get("status")
         if status == "active":
             pass
-        else:
-            token = request.headers.get("x-access-token")
-            if not token:
-                return jsonify({"error": "Token is missing"}), 401
-            
-            try:
-                current_user_id = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])["user_id"]
-            except:
-                return jsonify({"error": "Invalid token"}), 401
-            
+        else:                        
             if session["admin_id"] != current_user_id:
                 return jsonify({"error": "Only the session admin can access this session"}), 403
             
@@ -149,7 +141,12 @@ def update_session(current_user_id):
 
     session = sessions_collection.find_one({'_id': ObjectId(session_id)})
 
-    if session:        
+    if session:    
+        if session.get("status") == "inactive":  
+            if current_user_id != session["admin_id"]:
+                return jsonify({"error": "Only the session admin can update the session when session is inactive"}), 403
+        elif session.get("status") == "closed":
+            return jsonify({"error": "Session is closed, no updates allowed"}), 403
         
         total = sum([position["price"] for position in updated_session["session_positions"] if position.get("price")])
         updated_session["total"] = total
