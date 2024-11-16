@@ -404,11 +404,6 @@ def processReceipt(img):
     # print("Original Results:")
     # print(pytesseract_data_original)
 
-    print("Canny details:")
-    print(detailsCanny)
-    print("Original details:")
-    print(detailsOriginal)
-
     # print("Canny food details")
     # print(foodDetailsCanny)
     # print("Original food details")
@@ -422,6 +417,9 @@ def processReceipt(img):
         elif detailsOriginal[i] is None:
             detailsOriginal[i] = detailsCanny[i]
 
+    detailsOriginal[2] = list(detailsOriginal[2])
+    print("Original details:")
+    print(detailsOriginal)
     
     resultCanny = getProcessedFoodDetails(foodDetailsCanny)
     resultOriginal = getProcessedFoodDetails(foodDetailsOriginal)
