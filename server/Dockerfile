@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir /app
 WORKDIR /app
 
-COPY server/requirements.txt /app/
+COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt

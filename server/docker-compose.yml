@@ -1,0 +1,58 @@
+# version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      # dockerfile: Dockerfile
+    command: gunicorn -w 4 -b 0.0.0.0:8000 server:app
+    volumes:
+    - .:/app    
+      # - ./server:/app/server
+      # - ./website:/app/website
+      # - ./dataSets:/app/dataSets
+      # - ./cropped_images:/app/cropped_images
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  socketio:
+    build:
+      context: .
+      # dockerfile: Dockerfile
+    command: python server.py
+    volumes:
+      - .:/app
+      # - ./server:/app/server
+      # - ./website:/app/website
+      # - ./dataSets:/app/dataSets
+      # - ./cropped_images:/app/cropped_images
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../.env
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:
+    driver: bridge
