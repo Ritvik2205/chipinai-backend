@@ -19,7 +19,7 @@ views = Blueprint('views', __name__)
 def index(current_user_id):
     user_id = str(current_user_id)
 
-    previous_sessions = list(sessions_collection.find({"participants": user_id}).sort("created_at", -1).limit(4))
+    previous_sessions = list(sessions_collection.find({"participants": user_id, "status": "closed"}).sort("created_at", -1).limit(4))
     for session in previous_sessions:
         session["_id"] = str(session["_id"]) # Convert ObjectId to string
 
